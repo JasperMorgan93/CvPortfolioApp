@@ -1,9 +1,12 @@
 import pandas as pd
 from datetime import datetime
 
+
 class DataFrameTransformer:
-    
-    def fill_null_dates_with_today(self, dataframe: pd.DataFrame = None, date_col: str = None) -> pd.DataFrame:
+
+    def fill_null_dates_with_today(
+        self, dataframe: pd.DataFrame = None, date_col: str = None
+    ) -> pd.DataFrame:
         """Replaces null (NaN) values in the specified date column with today's date.
 
         Args:
@@ -19,11 +22,32 @@ class DataFrameTransformer:
 
         if date_col not in dataframe.columns:
             raise ValueError(f"The column '{date_col}' was not found in the dataframe.")
-        
-        # Ensure the specified date column is a datetime column
-        dataframe[date_col] = pd.to_datetime(dataframe[date_col], errors='coerce')
-        
-        # Replace NaN values in the specified date column with today's date
+
+        dataframe[date_col] = pd.to_datetime(dataframe[date_col], errors="coerce")
         dataframe[date_col].fillna(pd.Timestamp(datetime.today()), inplace=True)
-        
+
+        return dataframe
+
+    def set_date_columns_to_datetime(
+        self, dataframe: pd.DataFrame, date_cols: list = []
+    ) -> pd.DataFrame:
+        """Harmonise date columns into type: datetime
+
+        Args:
+            dataframe (pd.DataFrame): DataFrame to process
+            date_cols (list, optional): List of date column to set. Defaults to [].
+
+        Raises:
+            ValueError: Specified column is missing from dataset
+
+        Returns:
+            pd.DataFrame: Processed DataFrame
+        """
+        for col in date_cols:
+
+            if not col in dataframe.columns:
+                raise ValueError(f"No column : {col}, cannot convert to datetime")
+
+            dataframe[f"{col}"] = pd.to_datetime(dataframe[f"{col}"])
+
         return dataframe
