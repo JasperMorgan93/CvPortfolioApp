@@ -38,4 +38,4 @@ user_emp_df = data_transformer.set_date_columns_to_datetime(
 ## -- Deploy to app -- ##
 slt_loader = StreamlitProcessor(user_emp_df, "jm-data-engineer-cv-app")
 slt_loader.prepare_data()
-slt_loader.create_streamlit_app()
+slt_loader.run_streamlit_app()

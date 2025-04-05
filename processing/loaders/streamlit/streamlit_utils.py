@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+
 
 class StreamlitProcessor:
 
@@ -11,22 +13,13 @@ class StreamlitProcessor:
         self.app_name = app_name
 
     def prepare_data(self):
-        """_summary_
-
-        Args:
-            dataframe (_type_): _description_
-
-        Returns:
-            pd.DataFrame: _description_
-        """
+        """Data preperation for streamlit processing"""
         self.data = self.data.sort_values(by="start_date", ascending=False)
-    
-    def create_streamlit_app(self):
-        """WIP"""
-        # ---- Page Config ----
+
+    def config_page(self):
         st.set_page_config(layout="wide", page_title="Data Engineering CV")
 
-        # ---- Sidebar/Profile ----
+    def config_sidebar(self):
         # st.sidebar.image("assets/images/profile_pic.jpg", width=150)
         st.sidebar.title("Jasper Morgan")
         st.sidebar.markdown("**Email:** jasper.morgan@hotmail.co.uk")
@@ -37,17 +30,15 @@ class StreamlitProcessor:
             "**LinkedIn:** [Jasper Morgan](https://www.linkedin.com/in/jasper-morgan-185841165/)"
         )
 
-        # ---- Main Page ----
+    def config_main_page(self):
         st.title("Data Engineering CV")
         st.markdown("""
                     A visual and interactive version of my CV/portfolio. 
                     The data are loaded from SQL via the supabase API, 
                     processed in Python and presented via Streamlit
                     """)
-
-        # ---- Employment Timeline ----
-        import plotly.express as px
-
+        
+    def config_employment_timeline(self):
         st.header("💼 Employment Timeline")
         fig = px.timeline(
             self.data,
@@ -62,8 +53,7 @@ class StreamlitProcessor:
         fig.update_layout(yaxis_title="Employer")
         st.plotly_chart(fig, use_container_width=True)
 
-
-        # ---- Job Descriptions ----
+    def config_job_descriptions(self):
         st.header("📋 Job Descriptions")
         for idx, row in self.data.iterrows():
             st.subheader(f"{row['role']} - {row['company_name']}")
@@ -74,7 +64,16 @@ class StreamlitProcessor:
             if "skills" in row:
                 st.markdown(f"**Skills Used:** {row['skills']}")
 
-        # ---- Skills Cloud or Tags ----
+    def configure_skills_chart(self):
         st.header("🛠️ Skills")
         skills = self.data["key_skills"].dropna().str.split(", ").explode().value_counts()
         st.bar_chart(skills)
+    
+    def run_streamlit_app(self):
+        """Orchestrator to configure the whole streamlit app"""
+        self.config_page()
+        self.config_sidebar()
+        self.config_main_page()
+        self.config_employment_timeline()
+        self.config_job_descriptions()
+        self.configure_skills_chart()
