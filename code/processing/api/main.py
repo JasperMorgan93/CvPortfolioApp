@@ -3,7 +3,6 @@ from supabase import create_client, Client
 
 app = FastAPI()
 
-# Load environment variables (alternatively, hardcode for now)
 SUPABASE_URL = "https://dwltfqckbnzrlbvzhdha.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR3bHRmcWNrYm56cmxidnpoZGhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzNjQ4NDEsImV4cCI6MjA1ODk0MDg0MX0.oxQUzlPCazMgXSQKNck-S03NXt-uvc36yjCpHvFOyy8"
 
