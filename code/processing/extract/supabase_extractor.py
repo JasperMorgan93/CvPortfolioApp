@@ -30,3 +30,8 @@ class ExtractSupabaseProcessor(BaseExtractor):
         except requests.exceptions.RequestException as e:
             print(f"Error during request: {e}")
             raise
+
+    def validate_data(self, data: List[Dict[str, Any]]) -> bool:
+        if not data:
+            raise ValueError(f"No data extracted. Failing")
+        return True
