@@ -1,6 +1,12 @@
+import pandas as pd
+import os
+import streamlit as st
+from datetime import datetime
+import sys
 from processing.extract.supabase_extractor import ExtractSupabaseProcessor
 from processing.transform.dataframe_transformations import DataFrameTransformer
-import pandas as pd
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'processing')))
 
 SUPABASE_URL = "https://dwltfqckbnzrlbvzhdha.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR3bHRmcWNrYm56cmxidnpoZGhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzNjQ4NDEsImV4cCI6MjA1ODk0MDg0MX0.oxQUzlPCazMgXSQKNck-S03NXt-uvc36yjCpHvFOyy8"
@@ -24,11 +30,6 @@ user_emp_df = pd.merge(
 data_transformer = DataFrameTransformer()
 user_emp_df = data_transformer.fill_null_dates_with_today(user_emp_df, "end_date")
 
-
-import streamlit as st
-import pandas as pd
-from datetime import datetime
-
 # ---- Load Data ----
 df = user_emp_df.sort_values(by="start_date", ascending=False)
 df["start_date"] = pd.to_datetime(df["start_date"])
@@ -39,8 +40,8 @@ df["end_date"] = pd.to_datetime(df["end_date"])
 st.set_page_config(layout="wide", page_title="Data Engineering CV")
 
 # ---- Sidebar/Profile ----
-# st.sidebar.image("assets/profile_pic.jpg", width=150)
-st.sidebar.title("Your Name")
+st.sidebar.image("assets/images/profile_pic.jpg", width=150)
+st.sidebar.title("Jasper Morgan")
 st.sidebar.markdown("**Email:** jasper.morgan@hotmail.co.uk")
 st.sidebar.markdown(
     "**GitHub:** [JasperMorgan93](https://github.com/JasperMorgan93/CvPortfolioApp)"
