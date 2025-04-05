@@ -5,4 +5,8 @@ class BaseExtractor(ABC):
     @abstractmethod
     def extract(self) -> List[Dict[str, Any]]:
         pass
+
+    @abstractmethod
+    def validate_data(self):
+        pass
     
