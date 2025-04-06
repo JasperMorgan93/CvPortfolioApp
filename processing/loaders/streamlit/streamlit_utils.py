@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import time
 
 
 class StreamlitProcessor:
@@ -41,12 +42,16 @@ class StreamlitProcessor:
 
     def config_main_page(self):
         st.title("Data Engineering CV")
-        st.markdown(
+        self.type_markdown("""
+            Hi, welcome to my CV App.
+                           
+            I've created this as a more enjoyable way to look through a CV and showcase some of my skills/knowledge.
+                           
+            The data are hosted a SQL database using supabase, called it via the supabase API and presented the data here on Streamlit. 
+                           
+            You can view the code I used to create this app in the GitHub link in the sidebar.
+            ----
             """
-                    A visual and interactive version of my CV/portfolio. 
-                    The data are loaded from SQL via the supabase API, 
-                    processed in Python and presented via Streamlit
-                    """
         )
 
     def config_employment_timeline(self):
@@ -80,3 +85,12 @@ class StreamlitProcessor:
             self.data["key_skills"].dropna().str.split(", ").explode().value_counts()
         )
         st.bar_chart(skills)
+
+    def type_markdown(self, text, delay=0.01):
+        placeholder = st.empty()
+        current_text = ""
+        for char in text:
+            current_text += char
+            placeholder.markdown(current_text)
+            time.sleep(delay)
+
