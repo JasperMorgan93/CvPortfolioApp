@@ -14,7 +14,6 @@ SUPABASE_KEY = st.secrets.get("SUPABASE_KEY") or os.getenv("SUPABASE_KEY")
 if not SUPABASE_URL or not SUPABASE_KEY:
     raise EnvironmentError("Missing Supabase credentials.")
 
-
 ## -- Load data from supabase -- ##
 supabase_extractor = ExtractSupabaseProcessor(
     base_url=SUPABASE_URL, api_key=SUPABASE_KEY
