@@ -1,15 +1,18 @@
 import pandas as pd
 import os
-import sys
+from dotenv import load_dotenv
+import streamlit as st
 from processing.extract.supabase_extractor import ExtractSupabaseProcessor
 from processing.transform.dataframe_transformations import DataFrameTransformer
 from processing.loaders.streamlit.streamlit_utils import StreamlitProcessor
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "processing")))
+load_dotenv()
 
-SUPABASE_URL = "https://dwltfqckbnzrlbvzhdha.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR3bHRmcWNrYm56cmxidnpoZGhhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDMzNjQ4NDEsImV4cCI6MjA1ODk0MDg0MX0.oxQUzlPCazMgXSQKNck-S03NXt-uvc36yjCpHvFOyy8"
+SUPABASE_URL = st.secrets.get("SUPABASE_URL") or os.getenv("SUPABASE_URL")
+SUPABASE_KEY = st.secrets.get("SUPABASE_KEY") or os.getenv("SUPABASE_KEY")
 
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise EnvironmentError("Missing Supabase credentials.")
 
 ## -- Load data from supabase -- ##
 supabase_extractor = ExtractSupabaseProcessor(

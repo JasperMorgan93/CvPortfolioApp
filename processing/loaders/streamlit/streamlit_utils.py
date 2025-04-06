@@ -1,16 +1,26 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import time
 
 
 class StreamlitProcessor:
 
-    data : pd.DataFrame
-    app_name : str
+    data: pd.DataFrame
+    app_name: str
 
     def __init__(self, data, app_name):
         self.data = data
         self.app_name = app_name
+
+    def run_streamlit_app(self):
+        """Orchestrator to configure the whole streamlit app"""
+        self.config_page()
+        self.config_sidebar()
+        self.config_main_page()
+        self.config_employment_timeline()
+        self.config_job_descriptions()
+        self.configure_skills_chart()
 
     def prepare_data(self):
         """Data preperation for streamlit processing"""
@@ -32,12 +42,17 @@ class StreamlitProcessor:
 
     def config_main_page(self):
         st.title("Data Engineering CV")
-        st.markdown("""
-                    A visual and interactive version of my CV/portfolio. 
-                    The data are loaded from SQL via the supabase API, 
-                    processed in Python and presented via Streamlit
-                    """)
-        
+        self.type_markdown("""
+            Hi, welcome to my CV App.
+                           
+            I've created this as a more enjoyable way to look through a CV and showcase some of my skills/knowledge.
+                           
+            The data are hosted a SQL database using supabase, called it via the supabase API and presented the data here on Streamlit. 
+                           
+            You can view the code I used to create this app in the GitHub link in the sidebar.
+            """
+        )
+
     def config_employment_timeline(self):
         st.header("💼 Employment Timeline")
         fig = px.timeline(
@@ -58,22 +73,23 @@ class StreamlitProcessor:
         for idx, row in self.data.iterrows():
             st.subheader(f"{row['role']} - {row['company_name']}")
             st.caption(f"{row['start_date'].date()} → {row['end_date'].date()}")
-            st.markdown(
-                f"**Description:** {row.get('description', 'No description provided.')}"
-            )
+            with st.expander("See Description"):
+                st.markdown(f"{row.get('description', 'No description provided.')}")
             if "skills" in row:
                 st.markdown(f"**Skills Used:** {row['skills']}")
 
     def configure_skills_chart(self):
         st.header("🛠️ Skills")
-        skills = self.data["key_skills"].dropna().str.split(", ").explode().value_counts()
+        skills = (
+            self.data["key_skills"].dropna().str.split(", ").explode().value_counts()
+        )
         st.bar_chart(skills)
-    
-    def run_streamlit_app(self):
-        """Orchestrator to configure the whole streamlit app"""
-        self.config_page()
-        self.config_sidebar()
-        self.config_main_page()
-        self.config_employment_timeline()
-        self.config_job_descriptions()
-        self.configure_skills_chart()
+
+    def type_markdown(self, text, delay=0.01):
+        placeholder = st.empty()
+        current_text = ""
+        for char in text:
+            current_text += char
+            placeholder.markdown(current_text)
+            time.sleep(delay)
+
