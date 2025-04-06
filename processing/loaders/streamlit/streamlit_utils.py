@@ -44,12 +44,24 @@ class StreamlitProcessor:
         st.title("Data Engineering CV")
         self.type_markdown("""
             Hi, welcome to my CV App.
+
+            I started my data career as a Data Analyst Apprentice in the Civil Service, and within four years, 
+            I progressed to a Lead Data Engineer. 
                            
-            I've created this as a more enjoyable way to look through a CV and showcase some of my skills/knowledge.
+            My journey reflects a passion for solving complex problems and building scalable, impactful data solutions. 
+            Today, I’m continuing to grow as a Data Engineer at Two Circles, 
+            where I design and implement data products that help shape the future of the sports industry.
                            
-            The data are hosted a SQL database using supabase, called it via the supabase API and presented the data here on Streamlit. 
+            ----
                            
-            You can view the code I used to create this app in the GitHub link in the sidebar.
+            The data powering this app is hosted on a Supabase SQL database, accessed via the Supabase API, 
+            and visualised here using Streamlit.
+
+            You can explore the full source code via the GitHub link in the sidebar.
+            
+            ----
+                           
+            Data Engineer | PySpark & Azure Specialist | Building Scalable Data Solutions | Passionate About Sports & Data | Lifelong Learner
             """
         )
 
