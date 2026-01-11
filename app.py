@@ -20,20 +20,9 @@ supabase_extractor = ExtractSupabaseProcessor(
 )
 
 emp_hist_df = pd.DataFrame(supabase_extractor.extract("employment_history"))
-users_df = pd.DataFrame(supabase_extractor.extract("users"))
-
-## -- Process data -- ##
-
-user_emp_df = pd.merge(
-    users_df,
-    emp_hist_df,
-    left_on="id",
-    right_on="users_id",
-    suffixes=("_users", "_emp"),
-)
 
 data_transformer = DataFrameTransformer()
-user_emp_df = data_transformer.fill_null_dates_with_today(user_emp_df, "end_date")
+user_emp_df = data_transformer.fill_null_dates_with_today(emp_hist_df, "end_date")
 user_emp_df = data_transformer.set_date_columns_to_datetime(
     user_emp_df, ["start_date", "end_date"]
 )

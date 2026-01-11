@@ -20,7 +20,6 @@ class StreamlitProcessor:
         self.config_main_page()
         self.config_employment_timeline()
         self.config_job_descriptions()
-        self.configure_skills_chart()
 
     def prepare_data(self):
         """Data preperation for streamlit processing"""
@@ -90,14 +89,7 @@ class StreamlitProcessor:
             if "skills" in row:
                 st.markdown(f"**Skills Used:** {row['skills']}")
 
-    def configure_skills_chart(self):
-        st.header("🛠️ Skills")
-        skills = (
-            self.data["key_skills"].dropna().str.split(", ").explode().value_counts()
-        )
-        st.bar_chart(skills)
-
-    def type_markdown(self, text, delay=0.01):
+    def type_markdown(self, text, delay=0.005):
         placeholder = st.empty()
         current_text = ""
         for char in text:
