@@ -58,6 +58,9 @@ cython_debug/
 # Streamlit secrets (only if stored locally for testing)
 .streamlit/secrets.toml
 
+# Pycache
+*.pyc
+
 # Output folders
 output/
 build/
